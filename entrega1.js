@@ -54,3 +54,4 @@ productManager.addProduct('Producto 3', 'Descripción del Producto 3', 30, 'ruta
 console.log('Todos los productos:', productManager.getProducts());
 console.log('Producto con ID 2:', productManager.getProductById(2));
 console.log('Producto con ID 4:', productManager.getProductById(4));
+
