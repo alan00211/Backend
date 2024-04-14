@@ -55,3 +55,4 @@ console.log('Todos los productos:', productManager.getProducts());
 console.log('Producto con ID 2:', productManager.getProductById(2));
 console.log('Producto con ID 4:', productManager.getProductById(4));
 
+
