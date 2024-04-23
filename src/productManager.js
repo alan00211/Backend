@@ -1,3 +1,5 @@
+import fs from "fs";
+
 class ProductManager {
     constructor() {
         this.products = [];
@@ -45,12 +47,28 @@ class ProductManager {
 }
 
 // Ejemplo de uso
-const productManager = new ProductManager();
 
-productManager.addProduct('Producto 1', 'Descripción del Producto 1', 10, 'ruta/imagen1.jpg', 'P001', 100);
-productManager.addProduct('Producto 2', 'Descripción del Producto 2', 20, 'ruta/imagen2.jpg', 'P002', 50);
-productManager.addProduct('Producto 3', 'Descripción del Producto 3', 30, 'ruta/imagen3.jpg', 'P003', 200);
-
-console.log('Todos los productos:', productManager.getProducts());
-console.log('Producto con ID 2:', productManager.getProductById(2));
-console.log('Producto con ID 4:', productManager.getProductById(4));
+const updateProduct = async (id, dataProduct) => {
+    await getProducts();
+    const index = products.findIndex((product) => product.id === id);
+    products[index] = {
+      ...products[index],
+      ...dataProduct,
+    };
+  
+    await fs.promises.writeFile(pathFile, JSON.stringify(products));
+  };
+  
+  const deleteProduct = async (id) => {
+    await getProducts();
+    products = products.filter((product) => product.id !== id);
+    await fs.promises.writeFile(pathFile, JSON.stringify(products));
+  };
+  
+  export default {
+    addProduct,
+    getProductById,
+    getProducts,
+    updateProduct,
+    deleteProduct,
+  };
