@@ -1,34 +1,25 @@
 import express from "express";
-import productManager from "./productManager.js";
+import handlebars from "express-handlebars";
+import __dirname from "./dirname.js";
+import studentRoutes from "./routes/student.routes.js"
+import { connectMongoDB } from "./config/mongoDb.config.js";
 
+// base de datos
+connectMongoDB();
+
+const PORT = 8080;
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
-app.get("/products", async (req, res) => {
-  try {
-    const { limit } = req.query;
-    const products = await productManager.getProducts(limit);
+app.engine("handlebars", handlebars.engine()); 
+app.set("views", __dirname + "/views"); 
+app.set("view engine", "handlebars"); 
 
-    res.status(200).json(products);
-  } catch (error) {
-    console.log(error);
-  }
-});
+app.use("/", studentRoutes);
 
-app.get("/products/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params; // Todos los parámetros siempre vienen en formato string
-
-    const product = await productManager.getProductById(parseInt(pid));
-
-    res.status(200).json(product);
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-app.listen(8080, () => {
-  console.log("Escuchando el servidor en el puerto 8080");
+const httpServer = app.listen(PORT, () => {
+  console.log(`Server on port ${PORT}`);
 });
